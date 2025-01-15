@@ -1,27 +1,37 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { ToDo } from '../types';
 import ToDoItem from './ToDoItem';
 
 interface ToDoListProps {
     todoList: ToDo[];
+    onDeleteToDo: (id: string) => void;
+    onToggleToDo: (id: string) => void;
+    onEditToDO:(id:string,newToDo:string)=>void;
 }
 
-const ToDoList: React.FC<ToDoListProps> = ({todoList}) => {
+const ToDoList: React.FC<ToDoListProps> = ({ todoList,onDeleteToDo,onToggleToDo,onEditToDO }) => {
     return (
-        <ScrollView style={styles.container}>
-            {todoList.map((todo) => (
-                <ToDoItem key={todo.id} todo={todo} />
-            ))}
-        </ScrollView>
+        <View>
+            <Text>Todo List</Text>
+            <ScrollView contentContainerStyle={styles.container}>
+                {todoList.length === 0 ? (
+                    <Text>No tasks to display</Text>
+                ) : (
+                    todoList.map(todo => (
+                        <ToDoItem key={todo.id} onEdit={newTodo=> onEditToDO(todo?.id, newTodo)} onDelete={()=>onDeleteToDo(todo?.id)} onToggle={()=>onToggleToDo(todo?.id)} todo={todo} />
+                    ))
+                )}
+
+            </ScrollView>
+        </View>
     );
 
 }
 
 const styles = StyleSheet.create({
-    container: {    
-        flex: 1,
-
+    container: {
+        padding: 5,
     },
 });
 

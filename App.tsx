@@ -17,9 +17,29 @@ import {
 import ToDoList from './src/componets/ToDoList';
 
 
+
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  
   const [TodoList, setAddToDoList] = useState<ToDo[]>([]);
+
+  const deleteToDo = (id: string) => {
+    setAddToDoList(TodoList.filter(todo => todo.id !== id));
+  };
+
+  const onToggleToDo = (id: string) => {
+    setAddToDoList(TodoList.map(item => 
+      item.id === id ? { ...item, completed: !item.completed } :
+       item));
+  };
+
+  const onEditToDO=(id:string,newToDo:string)=>{
+    setAddToDoList(TodoList.map(item=>
+      item.id===id ? 
+      {...item,title:newToDo} 
+      : item
+    ));
+  }
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -35,8 +55,6 @@ function App(): React.JSX.Element {
     }]);
   };
 
-  console.log(TodoList);
-
   return (
     <SafeAreaView>
       <StatusBar
@@ -47,7 +65,7 @@ function App(): React.JSX.Element {
         <Text style={styles.textHeading}> TODO APP </Text>
       </View>
       <ToDoInput onAddTodo={addToDo} />
-      <ToDoList todoList={TodoList} />  
+      <ToDoList onEditToDO={onEditToDO} onToggleToDo={onToggleToDo} onDeleteToDo={deleteToDo} todoList={TodoList} />
     </SafeAreaView>
   );
 }
@@ -65,18 +83,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Arial',
     color: 'white',
     backgroundColor: '#219',
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
   },
 });
 

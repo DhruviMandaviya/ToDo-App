@@ -51,7 +51,12 @@ const styles = StyleSheet.create({
         fontFamily: 'Arial',
         color: 'white',
     },
-    btnBackground: { justifyContent: 'center', padding: 10, backgroundColor: '#219999', margin: 2 }
+    btnBackground: {
+        justifyContent: 'center',
+        padding: 10,
+        backgroundColor: '#219999',
+        margin: 2 
+    }
 });
 
 export default ToDoInput;
